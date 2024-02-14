@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/cartSlice.js";
+import { fetchProducts } from "./../store/productSlice";
+
 function Home() {
-  const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
 
+  const { data: products, status } = useSelector((state) => state.product);
+  
   useEffect(() => {
-    fetch("https://dummyjson.com/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products));
+    dispatch(fetchProducts());
   }, []);
 
   const handleAddToCart = (product) => {
