@@ -18,6 +18,14 @@ function Cart() {
   const handleDecrease = (id) => {
     dispatch(decreaseQuantity({ id }));
   };
+
+  const calculateTotalPrice = () => {
+    let total = 0;
+    products.forEach((product) => {
+      total += product.quantity * product.price; // Assuming each product has a 'price' property
+    });
+    return total;
+  };
   return (
     <div className="flex w-full">
       <div className="w-3/5">
@@ -26,46 +34,48 @@ function Cart() {
             <div className="flex gap-8 justify-center shadow  my-2 items-center py-2  px-8">
               <img className="w-14 h-14" src={cart.thumbnail} alt="" />
               <p className="w-20 text-xs">{cart.title.slice(0, 10)}</p>
-              <button
-                onClick={() => handleDecrease(cart.id)}
-                className="bg-green-300 rounded-full w-8 h-8 flex justify-center items-center font-bold text-3xl"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-4 h-4"
+              <div className="flex gap-3 items-center">
+                <button
+                  onClick={() => handleDecrease(cart.id)}
+                  className="rounded-full border p-1 flex justify-center items-center font-bold text-2xl"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 12h14"
-                  />
-                </svg>
-              </button>
-              <p>{cart.quantity}</p>
-              <button
-                onClick={() => handleIncrease(cart.id)}
-                className="bg-green-300 rounded-full w-8 h-8 flex justify-center items-center font-bold text-3xl"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-4 h-4"
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 12h14"
+                    />
+                  </svg>
+                </button>
+                <p>{cart.quantity}</p>
+                <button
+                  onClick={() => handleIncrease(cart.id)}
+                  className="rounded-full border p-1 flex justify-center items-center font-bold text-3xl"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-              </button>
-
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <p className="w-20 text-xs">Price : ${cart.price}</p>
               <button onClick={() => handleRemoveItem(cart.id)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -88,17 +98,23 @@ function Cart() {
       </div>
       <div classname="w-2/5">
         <div className="shadow border rounded p-8 m-3 mt-10">
-          <h3 className="text-xl font-bold ">Total</h3>
+          <h3 className="text-md text-center font-semibold ">
+            Total -
+            {calculateTotalPrice() + Math.ceil(calculateTotalPrice() * 0.02)}{" "}
+            USD
+          </h3>
           <hr />
           <div className="flex justify-between items-center mt-4 w-60">
             <p className="text-sm font-semibold">sub-total </p>
-            <p>350$</p>
+            <p className="text-sm">{calculateTotalPrice()} USD</p>
           </div>
           <div className="flex justify-between items-center w-60">
-            <p className="text-sm font-semibold">Delivery </p>
-            <p>350$</p>
+            <p className="text-sm font-semibold">Delivery (2%) </p>
+            <p className="text-sm">
+              {calculateTotalPrice() * (0.02).toFixed(2)} USD
+            </p>
           </div>
-          <button className="bg-green-400 w-full mt-4 rounded-sm py-2 text-white">
+          <button className="bg-green-400 w-full mt-6 rounded-sm py-2 text-white">
             Check Out
           </button>
         </div>
