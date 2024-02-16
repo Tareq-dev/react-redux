@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../store/cartSlice.js";
 import { fetchProducts } from "./../store/productSlice";
+import { UserContext } from "./../context/UserContext";
 
 function Home() {
   const dispatch = useDispatch();
-
+  const { auth, user, logout } = useContext(UserContext);
   const { data: products, status } = useSelector((state) => state.product);
-  
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
@@ -18,6 +19,8 @@ function Home() {
 
   return (
     <div className="mx-20">
+      <div>{auth ? <p>Welcome, {user.email}!</p> : <p>Not Login</p>}</div>
+      <button onClick={logout}>Log out</button>
       <div className="pt-20 grid md:grid-cols-4 gap-3">
         {products.map((p) => (
           <div key={p.id} className="flex justify-center">

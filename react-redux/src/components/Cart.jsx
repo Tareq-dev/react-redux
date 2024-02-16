@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   remove,
   increaseQuantity,
   decreaseQuantity,
 } from "../store/cartSlice.js";
+ 
+
 function Cart() {
   const products = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+   
 
   const handleRemoveItem = (id) => {
     dispatch(remove(id));
@@ -26,6 +29,8 @@ function Cart() {
     });
     return total;
   };
+
+ 
   return (
     <div className="flex w-full">
       <div className="w-3/5">
@@ -96,7 +101,7 @@ function Cart() {
           </div>
         ))}
       </div>
-      <div classname="w-2/5">
+      <div className="w-2/5">
         <div className="shadow border rounded p-8 m-3 mt-10">
           <h3 className="text-md text-center font-semibold ">
             Total -

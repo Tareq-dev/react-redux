@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Navbar() {
-  
   const items = useSelector((state) => state.cart);
   return (
     <div className="py-4 flex justify-between items-center">
@@ -21,7 +20,9 @@ function Navbar() {
           </Link>
         </li>
       </ul>
-      <div>Login</div>
+      <div>
+        <Link to="/login"> Login </Link>
+      </div>
     </div>
   );
 }
