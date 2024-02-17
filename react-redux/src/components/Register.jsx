@@ -4,9 +4,13 @@ import axios from "axios";
 import { UserContext } from "./../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { fetchUserData } from "./../utils/fetchState";
+import { selectUser, selectAuth } from "./../store/userSlice";
+import { useSelector } from "react-redux";
 
 function Register() {
-  const { setUser, setAuth } = useContext(UserContext);
+
+  const user = useSelector(selectUser);
+  const auth = useSelector(selectAuth);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -59,7 +63,7 @@ function Register() {
         formData
       );
       if (res.data.status) {
-        fetchUserData(setUser, setAuth);
+        fetchUserData(selectUser, selectAuth);
         navigate("/");
         setFormData({
           email: "",

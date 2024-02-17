@@ -1,12 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "./../context/UserContext";
 import { fetchUserData } from "./../utils/fetchState";
 import { useNavigate } from "react-router-dom";
+import { selectUser, selectAuth } from "./../store/userSlice";
 
 function Login() {
-  const { setUser, setAuth } = useContext(UserContext);
+  const user = useSelector(selectUser);
+  const auth = useSelector(selectAuth);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -48,7 +52,7 @@ function Login() {
       axios.defaults.withCredentials = true;
       const res = await axios.post("http://localhost:8000/api/login", formData);
       if (res.data.status) {
-        fetchUserData(setUser, setAuth);
+        fetchUserData(selectUser, selectAuth);
         navigate("/");
         setFormData({
           email: "",
